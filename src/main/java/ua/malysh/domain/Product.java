@@ -1,7 +1,9 @@
 package ua.malysh.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -11,14 +13,13 @@ import java.util.Objects;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "products",
         indexes = {
                 @Index(name = "idx_products_product_name", columnList = "product_name")},
         uniqueConstraints = {
                 @UniqueConstraint(name = "uc_products_product_name", columnNames = "product_name")})
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -41,6 +42,14 @@ public class Product {
             nullable = false)
     @Enumerated(EnumType.STRING)
     private Measure measure;
+
+    public Product(String name,
+                   Category category,
+                   Measure measure) {
+        this.name = name;
+        this.category = category;
+        this.measure = measure;
+    }
 
     @Override
     public boolean equals(Object o) {
