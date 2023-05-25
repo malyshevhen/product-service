@@ -2,7 +2,7 @@ version: '3'
 
 services:
   postgres:
-    image: postgres:15.3-alpine
+    image: postgres:15-alpine
     environment:
       POSTGRES_DB: university_ms_db
       POSTGRES_USER: ${DATASOURCE_USERNAME:-postgres}
