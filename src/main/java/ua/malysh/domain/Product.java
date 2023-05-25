@@ -33,15 +33,15 @@ public class Product {
             unique = true)
     private String name;
 
-    @Column(name = "product_category",
-            nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Category category;
-
     @Column(name = "product_measure",
             nullable = false)
     @Enumerated(EnumType.STRING)
     private Measure measure;
+
+    @Column(name = "product_category",
+            nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
     public Product(String name,
                    Category category,

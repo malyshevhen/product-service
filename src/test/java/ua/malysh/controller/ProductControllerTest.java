@@ -53,7 +53,7 @@ class ProductControllerTest {
         var name = "Test Product";
         var category = Category.MEAT;
         var measure = Measure.KILOGRAM;
-        var retrievedProduct = new Product(id, name, category, measure);
+        var retrievedProduct = new Product(id, name, measure, category);
 
         when(productService.find(id)).thenReturn(retrievedProduct);
 
