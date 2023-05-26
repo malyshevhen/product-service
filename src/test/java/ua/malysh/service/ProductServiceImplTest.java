@@ -1,19 +1,23 @@
 package ua.malysh.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
 import ua.malysh.controller.ProductService;
 import ua.malysh.domain.Category;
 import ua.malysh.domain.Measure;
 import ua.malysh.domain.Product;
 import ua.malysh.service.exceptions.ProductAlreadyExistsException;
 import ua.malysh.service.exceptions.ProductNotFoundException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.NONE,
@@ -27,16 +31,21 @@ class ProductServiceImplTest {
     @Autowired
     private ProductService productService;
 
+    private static Product product;
+
+    @BeforeAll
+    static void setup() {
+        product = new Product("Test Product", Category.MEAT, Measure.KILOGRAM);
+    }
+
     @Test
     void shouldSaveUniqueProductInDB() {
-        var product = new Product("Test Product", Category.MEAT, Measure.KILOGRAM);
         var id = productService.save(product);
         assertNotNull(id);
     }
 
     @Test
     void shouldThrowExceptionIfProductWithSameNameIsAlreadyExistsInDB() {
-        var product = new Product("Test Product", Category.MEAT, Measure.KILOGRAM);
         productService.save(product);
         assertThrows(ProductAlreadyExistsException.class,
                 () -> productService.save(product),
@@ -45,7 +54,6 @@ class ProductServiceImplTest {
 
     @Test
     void shouldRetrieveExistingProductFromDB() {
-        var product = new Product("Test Product", Category.MEAT, Measure.KILOGRAM);
         var id = productService.save(product);
         var sameProduct = productService.findById(id);
         product.setId(id);
@@ -61,7 +69,6 @@ class ProductServiceImplTest {
 
     @Test
     void shouldDeleteExistingProductFromDB() {
-        var product = new Product("Test Product", Category.MEAT, Measure.KILOGRAM);
         var id = productService.save(product);
         productService.deleteById(id);
         assertThrows(ProductNotFoundException.class,
