@@ -1,15 +1,15 @@
-server:
-  port: '8082'
+# server:
+#   port: '8082'
 
 spring:
-  datasource:
-    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/product_db}
-    username: ${DATASOURCE_USERNAME:postgres}
-    password: ${DATASOURCE_PASSWORD:password}
+#   datasource:
+#     url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/product_db}
+#     username: ${DATASOURCE_USERNAME:postgres}
+#     password: ${DATASOURCE_PASSWORD:password}
 
-  flyway:
-    enabled: true
-    baseline-on-migrate: true
+  # flyway:
+  #   enabled: true
+  #   baseline-on-migrate: true
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
