@@ -5,7 +5,7 @@ import ua.malysh.domain.Product;
 public interface ProductService {
     Long save(Product product);
 
-    Product find(Long productId);
+    Product findById(Long productId);
 
-    Long delete(Long productId);
+    Long deleteById(Long productId);
 }

@@ -47,16 +47,15 @@ class ProductServiceImplTest {
     void shouldRetrieveExistingProductFromDB() {
         var product = new Product("Test Product", Category.MEAT, Measure.KILOGRAM);
         var id = productService.save(product);
-        var sameProduct = productService.find(id);
+        var sameProduct = productService.findById(id);
         product.setId(id);
-
         assertEquals(product, sameProduct);
     }
 
     @Test
     void whenFindShouldThrowExceptionIfProductIsNotExistsInDB() {
         assertThrows(ProductNotFoundException.class,
-                () -> productService.find(1L),
+                () -> productService.findById(1L),
                 "Product with id: 1 not found!");
     }
 
@@ -64,16 +63,16 @@ class ProductServiceImplTest {
     void shouldDeleteExistingProductFromDB() {
         var product = new Product("Test Product", Category.MEAT, Measure.KILOGRAM);
         var id = productService.save(product);
-        productService.delete(id);
+        productService.deleteById(id);
         assertThrows(ProductNotFoundException.class,
-                () -> productService.find(id),
+                () -> productService.findById(id),
                 String.format("Product with id: %d not found!", id));
     }
 
     @Test
     void whenDeleteShouldThrowExceptionIfProductIsNotExistsInDB() {
         assertThrows(ProductNotFoundException.class,
-                () -> productService.delete(1L),
+                () -> productService.deleteById(1L),
                 "Product with id: 1 not found!");
     }
 }

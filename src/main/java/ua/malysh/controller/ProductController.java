@@ -23,13 +23,13 @@ public class ProductController {
     @NotNull
     @GetMapping("/{productId}")
     public ResponseEntity<Product> find(@PathVariable Long productId) {
-        var retrivedProduct = service.find(productId);
+        var retrivedProduct = service.findById(productId);
         return new ResponseEntity<>(retrivedProduct, HttpStatus.OK);
     }
 
     @DeleteMapping("/{productId}")
     public ResponseEntity<Long> delete(@PathVariable Long productId) {
-        var deletedProductId = service.delete(productId);
+        var deletedProductId = service.deleteById(productId);
         return new ResponseEntity<>(deletedProductId, HttpStatus.OK);
     }
 }

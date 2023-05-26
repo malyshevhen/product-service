@@ -55,7 +55,7 @@ class ProductControllerTest {
         var measure = Measure.KILOGRAM;
         var retrievedProduct = new Product(id, name, measure, category);
 
-        when(productService.find(id)).thenReturn(retrievedProduct);
+        when(productService.findById(id)).thenReturn(retrievedProduct);
 
         mockMvc.perform(get(URL + "/{id}", id))
                 .andExpect(status().isOk())
@@ -70,7 +70,7 @@ class ProductControllerTest {
     void shouldReturnStatusOk() throws Exception {
         long id = 1L;
 
-        when(productService.delete(id)).thenReturn(id);
+        when(productService.deleteById(id)).thenReturn(id);
 
         mockMvc.perform(delete(URL + "/{id}", id))
                 .andExpect(status().isOk())

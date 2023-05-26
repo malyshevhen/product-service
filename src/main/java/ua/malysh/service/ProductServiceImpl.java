@@ -15,37 +15,38 @@ import ua.malysh.service.exceptions.ProductNotFoundException;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository repository;
 
+    private static void throwProductAlreadyExists(Product p) {
+        throw new ProductAlreadyExistsException("Product with this name already exists!");
+    }
+
+    private static ProductNotFoundException throwProductNotFound() {
+        return new ProductNotFoundException("Product with id: %d not found!");
+    }
+
     @Override
     public Long save(Product product) {
-        var name = product.getName();
-
-        repository.findByName(name)
-                .ifPresent(p -> {
-                    throw new ProductAlreadyExistsException(
-                            String.format("Product with name: %s already exists!", name));
-                });
+        if (ifPresent(product)) throwProductAlreadyExists(product);
         Product savedProduct = repository.save(product);
 
         return savedProduct.getId();
     }
 
     @Override
-    public Product find(Long productId) {
+    public Product findById(Long productId) {
         return repository.findById(productId)
-                .orElseThrow(() -> new ProductNotFoundException(
-                        String.format("Product with id: %d not found!", productId)));
+                .orElseThrow(ProductServiceImpl::throwProductNotFound);
     }
 
     @Override
-    public Long delete(Long productId) {
-        repository
-                .findById(productId)
-                .ifPresentOrElse(
-                        product -> repository.deleteById(productId),
-                        () -> {
-                            throw new ProductNotFoundException(
-                                    String.format("Product with id: %d not found!", productId));
-                        });
+    public Long deleteById(Long productId) {
+        var product = findById(productId);
+        repository.delete(product);
+
         return productId;
+    }
+
+    private boolean ifPresent(Product product) {
+        return repository.findByName(product.getName())
+                .isPresent();
     }
 }
