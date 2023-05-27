@@ -1,17 +1,24 @@
 package ua.malysh.domain;
 
-import jakarta.persistence.*;
+import static jakarta.persistence.GenerationType.IDENTITY;
+
+import java.util.Objects;
+
+import org.hibernate.Hibernate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.Hibernate;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-
-import java.util.Objects;
-
-import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "products",
@@ -19,13 +26,15 @@ import static jakarta.persistence.GenerationType.IDENTITY;
                 @Index(name = "idx_products_product_name", columnList = "product_name")},
         uniqueConstraints = {
                 @UniqueConstraint(name = "uc_products_product_name", columnNames = "product_name")})
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter @Setter
+@NoArgsConstructor 
+@AllArgsConstructor
 public class Product {
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "product_id",
             nullable = false)
-    @JdbcTypeCode(SqlTypes.BIGINT)
     private Long id;
 
     @Column(name = "product_name",
@@ -42,6 +51,9 @@ public class Product {
             nullable = false)
     @Enumerated(EnumType.STRING)
     private Category category;
+
+    @Column(name = "product_description")
+    private String description;
 
     public Product(String name,
                    Category category,
