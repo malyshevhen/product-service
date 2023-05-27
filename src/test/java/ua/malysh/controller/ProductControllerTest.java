@@ -1,6 +1,13 @@
 package ua.malysh.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -9,15 +16,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import ua.malysh.domain.Category;
 import ua.malysh.domain.Measure;
 import ua.malysh.domain.Product;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = ProductController.class)
@@ -53,7 +58,11 @@ class ProductControllerTest {
         var name = "Test Product";
         var category = Category.MEAT;
         var measure = Measure.KILOGRAM;
-        var retrievedProduct = new Product(id, name, measure, category);
+        var retrievedProduct = new Product();
+        retrievedProduct.setId(id);
+        retrievedProduct.setName(name);
+        retrievedProduct.setCategory(category);
+        retrievedProduct.setMeasure(measure);
 
         when(productService.findById(id)).thenReturn(retrievedProduct);
 

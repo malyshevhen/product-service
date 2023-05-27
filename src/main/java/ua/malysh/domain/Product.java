@@ -2,9 +2,12 @@ package ua.malysh.domain;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -54,6 +57,17 @@ public class Product {
 
     @Column(name = "product_description")
     private String description;
+
+    @Column(name = "product_picture_url")
+    private String pictureUrl;
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @Column(name = "modified_at")
+    @UpdateTimestamp
+    private LocalDateTime modifiedAt;
 
     public Product(String name,
                    Category category,
