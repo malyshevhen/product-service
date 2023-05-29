@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -54,6 +55,9 @@ public class Product {
             nullable = false)
     @Enumerated(EnumType.STRING)
     private Category category;
+
+    @Embedded
+    private NutritionalValue nutritionalValue;
 
     @Column(name = "product_description")
     private String description;
