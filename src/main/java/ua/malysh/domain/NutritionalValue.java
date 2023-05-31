@@ -15,5 +15,5 @@ public class NutritionalValue {
     private Double fat;
 
     @Column(name = "protein_value")
-    private Double protein;    
+    private Double protein;
 }

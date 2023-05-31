@@ -31,7 +31,7 @@ import lombok.Setter;
         uniqueConstraints = {
                 @UniqueConstraint(name = "uc_products_product_name", columnNames = "product_name")})
 @Getter @Setter
-@NoArgsConstructor 
+@NoArgsConstructor
 @AllArgsConstructor
 public class Product {
 

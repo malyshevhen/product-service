@@ -1,7 +1,7 @@
 # server:
 #   port: '8082'
 
-spring:
+# spring:
 #   datasource:
 #     url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/product_db}
 #     username: ${DATASOURCE_USERNAME:postgres}
@@ -11,7 +11,7 @@ spring:
   #   enabled: true
   #   baseline-on-migrate: true
 
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
+  # jpa:
+  #   database-platform: org.hibernate.dialect.PostgreSQLDialect
+  #   show-sql: true
 #    generate-ddl: true
