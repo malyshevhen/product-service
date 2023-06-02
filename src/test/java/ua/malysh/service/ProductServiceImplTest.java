@@ -14,6 +14,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import ua.malysh.controller.ProductService;
 import ua.malysh.domain.Category;
+import ua.malysh.domain.NutritionalValue;
 import ua.malysh.domain.Product;
 import ua.malysh.service.exceptions.ProductAlreadyExistsException;
 import ua.malysh.service.exceptions.ProductNotFoundException;
@@ -35,6 +36,14 @@ class ProductServiceImplTest {
     @BeforeAll
     static void setup() {
         product = new Product("Test Product", Category.MEAT);
+
+        var nutritionalValue = new NutritionalValue();
+        nutritionalValue.setEnergie(300D);
+        nutritionalValue.setCarbohydrates(50D);
+        nutritionalValue.setProtein(20D);
+        nutritionalValue.setFat(15D);
+
+        product.setNutritionalValue(nutritionalValue);
     }
 
     @Test

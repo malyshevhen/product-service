@@ -8,12 +8,19 @@ import lombok.Data;
 @Data
 public class NutritionalValue {
 
-    @Column(name = "carbohydrates_value")
+    @Column(name = "energie_value",
+            nullable = false)
+    private Double energie;
+
+    @Column(name = "carbohydrates_value",
+            nullable = false)
     private Double carbohydrates;
 
-    @Column(name = "fat_value")
+    @Column(name = "fat_value",
+            nullable = false)
     private Double fat;
 
-    @Column(name = "protein_value")
+    @Column(name = "protein_value",
+            nullable = false)
     private Double protein;
 }
