@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ua.malysh.domain.Category;
-import ua.malysh.domain.Measure;
 import ua.malysh.domain.Product;
 
 
@@ -41,7 +40,7 @@ class ProductControllerTest {
     @Test
     void shouldReturnStatusCreated() throws Exception {
         long id = 1L;
-        var newProduct = new Product("Test Product", Category.MEAT, Measure.KILOGRAM);
+        var newProduct = new Product("Test Product", Category.MEAT);
 
         when(productService.save(newProduct)).thenReturn(id);
 
@@ -57,12 +56,10 @@ class ProductControllerTest {
         long id = 1L;
         var name = "Test Product";
         var category = Category.MEAT;
-        var measure = Measure.KILOGRAM;
         var retrievedProduct = new Product();
         retrievedProduct.setId(id);
         retrievedProduct.setName(name);
         retrievedProduct.setCategory(category);
-        retrievedProduct.setMeasure(measure);
 
         when(productService.findById(id)).thenReturn(retrievedProduct);
 
@@ -71,7 +68,6 @@ class ProductControllerTest {
                 .andExpect(jsonPath("id").value(id))
                 .andExpect(jsonPath("name").value(name))
                 .andExpect(jsonPath("category").value(category.toString()))
-                .andExpect(jsonPath("measure").value(measure.toString()))
                 .andDo(print());
     }
 

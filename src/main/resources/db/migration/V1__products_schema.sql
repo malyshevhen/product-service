@@ -2,7 +2,6 @@ CREATE TABLE products
 (
     product_id          BIGSERIAL,
     product_name        TEXT NOT NULL,
-    product_measure     TEXT NOT NULL,
     product_category    TEXT NOT NULL,
     product_description TEXT,
     product_picture_url TEXT,

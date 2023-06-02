@@ -46,11 +46,6 @@ public class Product {
             unique = true)
     private String name;
 
-    @Column(name = "product_measure",
-            nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Measure measure;
-
     @Column(name = "product_category",
             nullable = false)
     @Enumerated(EnumType.STRING)
@@ -74,11 +69,9 @@ public class Product {
     private LocalDateTime modifiedAt;
 
     public Product(String name,
-                   Category category,
-                   Measure measure) {
+                   Category category) {
         this.name = name;
         this.category = category;
-        this.measure = measure;
     }
 
     @Override

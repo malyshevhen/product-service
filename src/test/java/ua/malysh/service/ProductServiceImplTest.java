@@ -14,7 +14,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import ua.malysh.controller.ProductService;
 import ua.malysh.domain.Category;
-import ua.malysh.domain.Measure;
 import ua.malysh.domain.Product;
 import ua.malysh.service.exceptions.ProductAlreadyExistsException;
 import ua.malysh.service.exceptions.ProductNotFoundException;
@@ -35,7 +34,7 @@ class ProductServiceImplTest {
 
     @BeforeAll
     static void setup() {
-        product = new Product("Test Product", Category.MEAT, Measure.KILOGRAM);
+        product = new Product("Test Product", Category.MEAT);
     }
 
     @Test
