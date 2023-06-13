@@ -25,7 +25,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Long save(Product product) {
-        if (ifPresent(product)) throwProductAlreadyExists(product);
+        if (ifExists(product)) throwProductAlreadyExists(product);
         Product savedProduct = repository.save(product);
 
         return savedProduct.getId();
@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
         return productId;
     }
 
-    private boolean ifPresent(Product product) {
+    private boolean ifExists(Product product) {
         return repository.findByName(product.getName())
                 .isPresent();
     }
