@@ -23,8 +23,8 @@ public class ProductController {
     @NotNull
     @GetMapping("/{productId}")
     public ResponseEntity<Product> find(@PathVariable Long productId) {
-        var retrivedProduct = service.findById(productId);
-        return new ResponseEntity<>(retrivedProduct, HttpStatus.OK);
+        var retrievedProduct = service.findById(productId);
+        return new ResponseEntity<>(retrievedProduct, HttpStatus.OK);
     }
 
     @DeleteMapping("/{productId}")
