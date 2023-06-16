@@ -7,8 +7,8 @@ services:
       - '5432:5432'
     environment:
       POSTGRES_DB: products_db
-      POSTGRES_USER: ${DATASOURCE_USERNAME:-postgres}
-      POSTGRES_PASSWORD: ${DATASOURCE_PASSWORD:-password}
+      POSTGRES_USER: ${PRODUCTS_DATASOURCE_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${PRODUCTS_DATASOURCE_PASSWORD:-password}
     volumes:
       - products-data:/var/lib/postgresql/data
     restart: on-failure
