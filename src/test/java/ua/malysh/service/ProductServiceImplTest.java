@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +17,7 @@ import ua.malysh.controller.ProductService;
 import ua.malysh.domain.Category;
 import ua.malysh.domain.NutritionalValue;
 import ua.malysh.domain.Product;
+import ua.malysh.dto.ProductCreateForm;
 import ua.malysh.service.exceptions.ProductAlreadyExistsException;
 import ua.malysh.service.exceptions.ProductNotFoundException;
 
@@ -32,9 +34,12 @@ class ProductServiceImplTest {
     private ProductService productService;
 
     private static Product product;
+    private static ProductCreateForm productDto;
 
     @BeforeAll
     static void setup() {
+        var mapper = new ModelMapper();
+
         product = new Product("Test Product", Category.MEAT);
 
         var nutritionalValue = new NutritionalValue();
@@ -44,25 +49,27 @@ class ProductServiceImplTest {
         nutritionalValue.setFat(15D);
 
         product.setNutritionalValue(nutritionalValue);
+
+        productDto = mapper.map(product, ProductCreateForm.class);
     }
 
     @Test
     void shouldSaveUniqueProductInDB() {
-        var id = productService.save(product);
+        var id = productService.save(productDto);
         assertNotNull(id);
     }
 
     @Test
     void shouldThrowExceptionIfProductWithSameNameIsAlreadyExistsInDB() {
-        productService.save(product);
+        productService.save(productDto);
         assertThrows(ProductAlreadyExistsException.class,
-                () -> productService.save(product),
+                () -> productService.save(productDto),
                 "Product with name: Test product already exists!");
     }
 
     @Test
     void shouldRetrieveExistingProductFromDB() {
-        var id = productService.save(product);
+        var id = productService.save(productDto);
         var sameProduct = productService.findById(id);
         product.setId(id);
         assertEquals(product, sameProduct);
@@ -77,7 +84,7 @@ class ProductServiceImplTest {
 
     @Test
     void shouldDeleteExistingProductFromDB() {
-        var id = productService.save(product);
+        var id = productService.save(productDto);
         productService.deleteById(id);
         assertThrows(ProductNotFoundException.class,
                 () -> productService.findById(id),
