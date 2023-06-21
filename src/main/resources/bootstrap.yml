@@ -7,6 +7,12 @@ spring:
     config:
       uri: ${CONFIG_SERVICE_URI:http://localhost:8888}
       label: latest
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: "http://localhost:9000"
+
 logging:
   level:
-    '[org.springframework.cloud]': TRACE
+    '[org.springframework.cloud, org.springframework.security]': TRACE
