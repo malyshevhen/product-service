@@ -1,6 +1,10 @@
 package ua.malysh.service;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+import java.util.function.Supplier;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.malysh.controller.ProductService;
@@ -15,17 +19,10 @@ import ua.malysh.service.exceptions.ProductNotFoundException;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository repository;
 
-    private static void throwProductAlreadyExists(Product p) {
-        throw new ProductAlreadyExistsException("Product with this name already exists!");
-    }
-
-    private static ProductNotFoundException throwProductNotFound() {
-        return new ProductNotFoundException("Product with id: %d not found!");
-    }
-
     @Override
     public Long save(Product product) {
-        if (ifExists(product)) throwProductAlreadyExists(product);
+        if (ifExists(product))
+            throw new ProductAlreadyExistsException("Product with this name already exists!");
         Product savedProduct = repository.save(product);
 
         return savedProduct.getId();
@@ -34,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product findById(Long productId) {
         return repository.findById(productId)
-                .orElseThrow(ProductServiceImpl::throwProductNotFound);
+                .orElseThrow(notFoundSupplier());
     }
 
     @Override
@@ -43,6 +40,15 @@ public class ProductServiceImpl implements ProductService {
         repository.delete(product);
 
         return productId;
+    }
+
+    @Override
+    public List<Product> getAll() {
+        return repository.findAll();
+    }
+
+    private Supplier<? extends ProductNotFoundException> notFoundSupplier() {
+        return () -> new ProductNotFoundException("Product with id: %d not found!");
     }
 
     private boolean ifExists(Product product) {

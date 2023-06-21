@@ -1,5 +1,7 @@
 package ua.malysh.controller;
 
+import java.util.List;
+
 import ua.malysh.domain.Product;
 
 public interface ProductService {
@@ -8,4 +10,7 @@ public interface ProductService {
     Product findById(Long productId);
 
     Long deleteById(Long productId);
+
+    List<Product> getAll();
+
 }
