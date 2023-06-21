@@ -5,10 +5,12 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.function.Supplier;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.malysh.controller.ProductService;
 import ua.malysh.domain.Product;
+import ua.malysh.dto.ProductCreateForm;
 import ua.malysh.repository.ProductRepository;
 import ua.malysh.service.exceptions.ProductAlreadyExistsException;
 import ua.malysh.service.exceptions.ProductNotFoundException;
@@ -18,9 +20,12 @@ import ua.malysh.service.exceptions.ProductNotFoundException;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository repository;
+    private final ModelMapper mapper;
 
     @Override
-    public Long save(Product product) {
+    public Long save(ProductCreateForm productDto) {
+        var product = mapper.map(productDto, Product.class);
+
         if (ifExists(product))
             throw new ProductAlreadyExistsException("Product with this name already exists!");
         Product savedProduct = repository.save(product);

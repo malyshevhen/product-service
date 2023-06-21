@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -20,8 +21,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ua.malysh.domain.Category;
+import ua.malysh.domain.NutritionalValue;
 import ua.malysh.domain.Product;
-
+import ua.malysh.dto.ProductCreateForm;
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = ProductController.class)
@@ -37,16 +39,41 @@ class ProductControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private static Product product;
+    private static ProductCreateForm productDto;
+
+    @BeforeAll
+    static void setup() {
+        product = new Product("Test Product", Category.MEAT);
+
+        var nutritionalValue = new NutritionalValue();
+        nutritionalValue.setEnergie(300D);
+        nutritionalValue.setCarbohydrates(50D);
+        nutritionalValue.setProtein(20D);
+        nutritionalValue.setFat(15D);
+
+        product.setNutritionalValue(nutritionalValue);
+
+        productDto = new ProductCreateForm(
+                product.getName(),
+                product.getCategory().toString(),
+                product.getNutritionalValue().getEnergie(),
+                product.getNutritionalValue().getCarbohydrates(),
+                product.getNutritionalValue().getFat(),
+                product.getNutritionalValue().getProtein(),
+                product.getDescription(),
+                product.getPictureUrl());
+    }
+
     @Test
     void shouldReturnStatusCreated() throws Exception {
         long id = 1L;
-        var newProduct = new Product("Test Product", Category.MEAT);
 
-        when(productService.save(newProduct)).thenReturn(id);
+        when(productService.save(productDto)).thenReturn(id);
 
         mockMvc.perform(post(URL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(newProduct)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productDto)))
                 .andExpect(status().isCreated())
                 .andDo(print());
     }
