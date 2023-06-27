@@ -12,7 +12,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -24,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ua.malysh.domain.Category;
 import ua.malysh.domain.NutritionalValue;
 import ua.malysh.domain.Product;
-import ua.malysh.dto.ProductCreateForm;
+import ua.malysh.service.ProductService;
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = ProductController.class)
@@ -41,12 +40,9 @@ class ProductControllerTest {
     private ObjectMapper objectMapper;
 
     private static Product product;
-    private static ProductCreateForm productDto;
 
     @BeforeAll
     static void setup() {
-        var mapper = new ModelMapper();
-
         product = new Product("Test Product", Category.MEAT);
 
         var nutritionalValue = new NutritionalValue();
@@ -56,19 +52,17 @@ class ProductControllerTest {
         nutritionalValue.setFat(15D);
 
         product.setNutritionalValue(nutritionalValue);
-
-        productDto = mapper.map(product, ProductCreateForm.class);
     }
 
     @Test
     void shouldReturnStatusCreated() throws Exception {
         long id = 1L;
 
-        when(productService.save(productDto)).thenReturn(id);
+        when(productService.save(product)).thenReturn(id);
 
         mockMvc.perform(post(URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(productDto)))
+                .content(objectMapper.writeValueAsString(product)))
                 .andExpect(status().isCreated())
                 .andDo(print());
     }
