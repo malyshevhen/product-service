@@ -1,17 +1,17 @@
-package ua.malysh.service;
+package ua.malysh.service.impl;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.function.Supplier;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.malysh.controller.ProductService;
 import ua.malysh.domain.Product;
-import ua.malysh.dto.ProductCreateForm;
 import ua.malysh.repository.ProductRepository;
+import ua.malysh.service.ProductService;
 import ua.malysh.service.exceptions.ProductAlreadyExistsException;
 import ua.malysh.service.exceptions.ProductNotFoundException;
 
@@ -20,12 +20,9 @@ import ua.malysh.service.exceptions.ProductNotFoundException;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository repository;
-    private final ModelMapper mapper;
 
     @Override
-    public Long save(ProductCreateForm productDto) {
-        var product = mapper.map(productDto,Product.class);
-
+    public Long save(@NotNull @Valid Product product) {
         if (ifExists(product))
             throw new ProductAlreadyExistsException("Product with this name already exists!");
         Product savedProduct = repository.save(product);
@@ -34,13 +31,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product findById(Long productId) {
+    public Product findById(@NotNull Long productId) {
         return repository.findById(productId)
                 .orElseThrow(notFoundSupplier());
     }
 
     @Override
-    public Long deleteById(Long productId) {
+    public Long deleteById(@NotNull Long productId) {
         var product = findById(productId);
         repository.delete(product);
 

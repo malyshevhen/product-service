@@ -1,14 +1,14 @@
-package ua.malysh.controller;
+package ua.malysh.service;
 
 import java.util.List;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import ua.malysh.domain.Product;
-import ua.malysh.dto.ProductCreateForm;
 
 public interface ProductService {
-    Long save(@NotNull @Valid ProductCreateForm productDto);
+
+    Long save(@NotNull @Valid Product product);
 
     Product findById(Long productId);
 

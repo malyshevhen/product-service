@@ -16,7 +16,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import ua.malysh.domain.Product;
-import ua.malysh.dto.ProductCreateForm;
+import ua.malysh.service.ProductService;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -32,8 +32,8 @@ public class ProductController {
 
     @NotNull
     @PostMapping
-    public ResponseEntity<Long> add(@RequestBody @NotNull @Valid ProductCreateForm productDto) {
-        return new ResponseEntity<>(service.save(productDto), HttpStatus.CREATED);
+    public ResponseEntity<Long> add(@RequestBody @NotNull @Valid Product product) {
+        return new ResponseEntity<>(service.save(product), HttpStatus.CREATED);
     }
 
     @NotNull
