@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.MockMvc;
 import ua.malysh.domain.Category;
 import ua.malysh.domain.NutritionalValue;
@@ -55,7 +56,7 @@ class ProductControllerTest {
         when(productService.save(product)).thenReturn(id);
 
         mockMvc.perform(post(URL)
-                        .with(jwt())
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_USER")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(product)))
                 .andExpect(status().isCreated())
@@ -72,7 +73,7 @@ class ProductControllerTest {
         when(productService.findById(id)).thenReturn(retrievedProduct);
 
         mockMvc.perform(get(URL + "/{id}", id)
-                        .with(jwt()))
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_USER"))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").value(id))
                 .andExpect(jsonPath("name").value(product.getName()))
@@ -87,7 +88,7 @@ class ProductControllerTest {
         when(productService.deleteById(id)).thenReturn(id);
 
         mockMvc.perform(delete(URL + "/{id}", id)
-                        .with(jwt()))
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
