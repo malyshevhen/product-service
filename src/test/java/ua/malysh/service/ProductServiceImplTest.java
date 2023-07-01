@@ -71,7 +71,7 @@ class ProductServiceImplTest {
     @Test
     void whenFindShouldThrowExceptionIfProductIsNotExistsInDB() {
         assertThrows(ProductNotFoundException.class,
-                () -> productService.findById(1L),
+                () -> productService.findById(1000L),
                 "Product with id: 1 not found!");
     }
 
@@ -87,7 +87,7 @@ class ProductServiceImplTest {
     @Test
     void whenDeleteShouldThrowExceptionIfProductIsNotExistsInDB() {
         assertThrows(ProductNotFoundException.class,
-                () -> productService.deleteById(1L),
+                () -> productService.deleteById(1000L),
                 "Product with id: 1 not found!");
     }
 }

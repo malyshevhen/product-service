@@ -42,7 +42,7 @@ public class ProductController {
     @NotNull
     @GetMapping("/{productId}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Product> find(@PathVariable Long productId) {
+    public ResponseEntity<Product> find(@PathVariable @NotNull Long productId) {
         var retrievedProduct = service.findById(productId);
         return new ResponseEntity<>(retrievedProduct, HttpStatus.OK);
     }
@@ -50,7 +50,7 @@ public class ProductController {
     @NotNull
     @DeleteMapping("/{productId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Long> delete(@PathVariable Long productId) {
+    public ResponseEntity<Long> delete(@PathVariable @NotNull Long productId) {
         var deletedProductId = service.deleteById(productId);
         return new ResponseEntity<>(deletedProductId, HttpStatus.OK);
     }

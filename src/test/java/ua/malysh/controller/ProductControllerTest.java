@@ -92,4 +92,16 @@ class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
+
+    @Test
+    void shouldReturnStatusForbidden() throws Exception {
+        long id = 1L;
+
+        when(productService.deleteById(id)).thenReturn(id);
+
+        mockMvc.perform(delete(URL + "/{id}", id)
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_USER"))))
+                .andExpect(status().isForbidden())
+                .andDo(print());
+    }
 }

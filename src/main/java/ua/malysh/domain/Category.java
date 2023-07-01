@@ -3,7 +3,7 @@ package ua.malysh.domain;
 public enum Category {
     MEAT,
     FISH,
-    SOUSE,
+    SAUCE,
     GROCERY,
     VEGETABLES,
     FRUITS,
