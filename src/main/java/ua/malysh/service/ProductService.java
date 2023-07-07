@@ -10,7 +10,7 @@ public interface ProductService {
 
     Long save(@NotNull @Valid Product product);
 
-    Product findById(Long productId);
+    Product getById(Long productId);
 
     Long deleteById(Long productId);
 

@@ -63,7 +63,7 @@ class ProductServiceImplTest {
     @Test
     void shouldRetrieveExistingProductFromDB() {
         var id = productService.save(product);
-        var sameProduct = productService.findById(id);
+        var sameProduct = productService.getById(id);
         product.setId(id);
         assertEquals(product, sameProduct);
     }
@@ -71,7 +71,7 @@ class ProductServiceImplTest {
     @Test
     void whenFindShouldThrowExceptionIfProductIsNotExistsInDB() {
         assertThrows(ProductNotFoundException.class,
-                () -> productService.findById(1000L),
+                () -> productService.getById(1000L),
                 "Product with id: 1 not found!");
     }
 
@@ -80,7 +80,7 @@ class ProductServiceImplTest {
         var id = productService.save(product);
         productService.deleteById(id);
         assertThrows(ProductNotFoundException.class,
-                () -> productService.findById(id),
+                () -> productService.getById(id),
                 String.format("Product with id: %d not found!", id));
     }
 

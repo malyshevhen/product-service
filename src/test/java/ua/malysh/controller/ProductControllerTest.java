@@ -70,7 +70,7 @@ class ProductControllerTest {
         var retrievedProduct = product;
         retrievedProduct.setId(id);
 
-        when(productService.findById(id)).thenReturn(retrievedProduct);
+        when(productService.getById(id)).thenReturn(retrievedProduct);
 
         mockMvc.perform(get(URL + "/{id}", id)
                         .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_USER"))))

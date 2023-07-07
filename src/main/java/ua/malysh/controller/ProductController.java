@@ -42,8 +42,8 @@ public class ProductController {
     @NotNull
     @GetMapping("/{productId}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Product> find(@PathVariable @NotNull Long productId) {
-        var retrievedProduct = service.findById(productId);
+    public ResponseEntity<Product> getById(@PathVariable @NotNull Long productId) {
+        var retrievedProduct = service.getById(productId);
         return new ResponseEntity<>(retrievedProduct, HttpStatus.OK);
     }
 

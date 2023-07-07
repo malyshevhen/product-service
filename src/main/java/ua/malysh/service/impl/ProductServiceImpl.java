@@ -31,14 +31,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product findById(@NotNull Long productId) {
+    public Product getById(@NotNull Long productId) {
         return repository.findById(productId)
                 .orElseThrow(notFoundSupplier());
     }
 
     @Override
     public Long deleteById(@NotNull Long productId) {
-        var product = findById(productId);
+        var product = getById(productId);
         repository.delete(product);
 
         return productId;
@@ -50,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private Supplier<? extends ProductNotFoundException> notFoundSupplier() {
-        return () -> new ProductNotFoundException("Product with id: %d not found!");
+        return () -> new ProductNotFoundException("Product not found!");
     }
 
     private boolean ifExists(Product product) {
