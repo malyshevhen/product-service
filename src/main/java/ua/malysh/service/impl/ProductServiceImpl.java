@@ -30,6 +30,7 @@ public class ProductServiceImpl implements ProductService {
         return savedProduct.getId();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Product getById(@NotNull Long productId) {
         return repository.findById(productId)
@@ -44,6 +45,7 @@ public class ProductServiceImpl implements ProductService {
         return productId;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Product> getAll() {
         return repository.findAll();
