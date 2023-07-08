@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+// import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,21 +27,21 @@ public class ProductController {
 
     @NotNull
     @GetMapping
-    @PreAuthorize("hasRole('USER')")
+    // @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<Product>> getAll() {
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
     @NotNull
     @PostMapping
-    @PreAuthorize("hasRole('USER')")
+    // @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Long> add(@RequestBody @NotNull @Valid Product product) {
         return new ResponseEntity<>(service.save(product), HttpStatus.CREATED);
     }
 
     @NotNull
     @GetMapping("/find")
-    @PreAuthorize("hasRole('USER')")
+    // @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Product> getById(@RequestParam @NotNull Long productId) {
         var retrievedProduct = service.getById(productId);
         return new ResponseEntity<>(retrievedProduct, HttpStatus.OK);
@@ -49,7 +49,7 @@ public class ProductController {
 
     @NotNull
     @DeleteMapping("/delete")
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Long> delete(@RequestParam @NotNull Long productId) {
         var deletedProductId = service.deleteById(productId);
         return new ResponseEntity<>(deletedProductId, HttpStatus.OK);
