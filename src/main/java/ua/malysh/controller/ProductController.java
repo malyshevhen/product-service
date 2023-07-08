@@ -7,10 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
@@ -20,7 +20,7 @@ import ua.malysh.domain.Product;
 import ua.malysh.service.ProductService;
 
 @RestController
-@RequestMapping("/api/v1/products")
+@RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService service;
@@ -40,17 +40,17 @@ public class ProductController {
     }
 
     @NotNull
-    @GetMapping("/{productId}")
+    @GetMapping("/find")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Product> getById(@PathVariable @NotNull Long productId) {
+    public ResponseEntity<Product> getById(@RequestParam @NotNull Long productId) {
         var retrievedProduct = service.getById(productId);
         return new ResponseEntity<>(retrievedProduct, HttpStatus.OK);
     }
 
     @NotNull
-    @DeleteMapping("/{productId}")
+    @DeleteMapping("/delete")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Long> delete(@PathVariable @NotNull Long productId) {
+    public ResponseEntity<Long> delete(@RequestParam @NotNull Long productId) {
         var deletedProductId = service.deleteById(productId);
         return new ResponseEntity<>(deletedProductId, HttpStatus.OK);
     }
