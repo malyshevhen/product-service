@@ -1,6 +1,6 @@
 spring:
   application:
-    name: product-service
+    name: products
   profiles:
     active: default
   cloud:
